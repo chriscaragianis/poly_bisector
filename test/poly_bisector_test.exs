@@ -34,7 +34,9 @@ defmodule PolyBisector.Test do
     end
 
     test "polar_angle" do
-      assert PolyBisector.polar_angle([-1, -1], [0, 0], [1, 0]) == 225;
+      #assert_in_delta PolyBisector.polar_angle([-1, -1], [0, 0], [1, 0]), 3.92699, 0.0001;
+      #assert_in_delta PolyBisector.polar_angle([1, 1], [0, 0], [-1, 0]), 3.92699, 0.0001;
+      assert_in_delta PolyBisector.polar_angle([0, 0], [1, 2], [3, 1]), 4.71239, 0.0001;
     end
   end
 end

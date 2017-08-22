@@ -13,6 +13,13 @@ defmodule PolyBisector do
   end
 
   def polar_angle(p1, p2, p3) do
+    tan1 = (Enum.at(p2, 1) - Enum.at(p1, 1)) / (Enum.at(p2, 0) - Enum.at(p1, 0))
+    tan2 = (Enum.at(p3, 1) - Enum.at(p2, 1)) / (Enum.at(p3, 0) - Enum.at(p2, 0))
+    raw = :math.atan(tan2) - :math.atan(tan1)
+    cond do
+      raw < 0 -> raw + (2 * :math.pi)
+      true -> raw
+    end
   end
 
   def convex(poly) do
