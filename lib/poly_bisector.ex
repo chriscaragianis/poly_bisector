@@ -12,9 +12,14 @@ defmodule PolyBisector do
     end)
   end
 
+  def polar_angle(p1, p2, p3) do
+  end
+
   def convex(poly) do
     point_list = MapSet.to_list(poly)
     p_0 = leftmost(point_list)
+    hull = [p_0]
+
 
   end
 end

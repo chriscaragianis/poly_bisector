@@ -32,5 +32,9 @@ defmodule PolyBisector.Test do
     test "leftmost" do
       assert PolyBisector.leftmost(MapSet.to_list(@non_convex)) == [-1, 0]
     end
+
+    test "polar_angle" do
+      assert PolyBisector.polar_angle([-1, -1], [0, 0], [1, 0]) == 225;
+    end
   end
 end
