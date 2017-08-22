@@ -4,15 +4,15 @@ defmodule PolyBisector do
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PolyBisector.hello
-      :world
-
   """
-  def hello do
-    :world
+  def leftmost(list) do
+    List.foldr(list, hd(list), fn(x, acc) ->
+      if hd(x) < hd(acc) do  acc = x end
+    end)
+  end
+
+  def convex(poly) do
+    point_list = MapSet.to_list(poly)
+
   end
 end
