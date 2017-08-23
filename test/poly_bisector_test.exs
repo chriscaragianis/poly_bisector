@@ -107,10 +107,11 @@ defmodule PolyBisector.Test do
 
     test "intersect?" do
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[0, 1], [0, -1]]) == true
+      assert PolyBisector.intersect?([[0, 1], [0, -1]], [[-1, 0], [1, 0]]) == true
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[5, 1], [5, -1]]) == false
+      assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[-1, 0], [5, -1]]) == false
     end
 
-    @tag :skip
     test "split" do
       assert polylist_to_set(PolyBisector.split(@convex)) == polylist_to_set(@convex_split)
       assert polylist_to_set(PolyBisector.split(@non_convex)) == polylist_to_set(@non_convex_split)
