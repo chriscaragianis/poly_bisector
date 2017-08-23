@@ -48,7 +48,22 @@ defmodule PolyBisector do
     point_list = MapSet.to_list(poly)
     p_0 = rightmost(point_list)
     hull = [p_0]
-
-
   end
+
+  def get_segments(poly) do
+    sides = length(poly)
+    poly
+    |> Stream.with_index
+    |> Enum.map(fn(x) ->
+      {point, index} = x
+      [point, Enum.at(poly, rem((index + 1), length(poly)))]
+    end)
+  end
+
+  def intersect?(seg1, seg2) do
+  end
+
+  def split(poly) do
+  end
+
 end

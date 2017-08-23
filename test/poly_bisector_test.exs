@@ -105,6 +105,11 @@ defmodule PolyBisector.Test do
       assert polylist_to_set(PolyBisector.get_segments(@convex)) == polylist_to_set(@convex_segs)
     end
 
+    test "intersect?" do
+      assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[0, 1], [0, -1]]) == true
+      assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[5, 1], [5, -1]]) == false
+    end
+
     @tag :skip
     test "split" do
       assert polylist_to_set(PolyBisector.split(@convex)) == polylist_to_set(@convex_split)
