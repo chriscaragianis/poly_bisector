@@ -4,28 +4,28 @@ defmodule PolyBisector.Test do
 
   @non_convex [
     [0, 1],
-    [0.5, 0.5],
+    [0.25, 0.25],
     [1, 0],
-    [0.5, -0.5],
+    [0.25, -0.25],
     [0, -1],
-    [-0.5, -0.5],
+    [0, 0],
     [-1, 0],
-    [-0.5, 0.5]
+    [-0.25, 0.25]
   ]
 
   @non_convex_split [
     [
       [0, 1],
-      [0.5, 0.5],
+      [0.25, 0.25],
       [1, 0],
-      [0.5, -0.5],
+      [0.25, -0.25],
       [0, -1]
     ],
     [
       [0, 1],
-      [-0.5, 0.5],
+      [-0.25, 0.25],
       [-1, 0],
-      [-0.5, -0.5],
+      [-0.25, -0.25],
       [0, -1]
     ]
   ]
@@ -91,9 +91,17 @@ defmodule PolyBisector.Test do
 
     @tag :skip
     test "polar_angle" do
-      assert_in_delta PolyBisector.polar_angle([-1, -1], [0, 0], [1, 0]), 3.92699, 0.0001
+      #assert_in_delta PolyBisector.polar_angle([-1, -1], [0, 0], [1, 0]), 3.92699, 0.0001
       assert_in_delta PolyBisector.polar_angle([1, 1], [0, 0], [-1, 0]), 3.92699, 0.0001
       assert_in_delta PolyBisector.polar_angle([0, 0], [1, 2], [3, 1]), 4.71239, 0.0001
+      assert_in_delta PolyBisector.polar_angle([-1, 0], [0, 1], [1, 0]), 4.71239, 0.0001
+    end
+
+    @tag :skip
+    test "polar_angle_seg" do
+      s1 = [[-1, 0], [0, 1]]
+      s2 = [[0, 1], [1, 0]]
+      assert_in_delta PolyBisector.polar_angle_seg(s1, s2), 4.71239, 0.0001
     end
 
     @tag :skip
@@ -110,11 +118,19 @@ defmodule PolyBisector.Test do
       assert PolyBisector.intersect?([[0, 1], [0, -1]], [[-1, 0], [1, 0]]) == true
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[5, 1], [5, -1]]) == false
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[-1, 0], [5, -1]]) == false
+      assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[-1, 0], [1, 0]]) == false
     end
 
+    @tag :skip
     test "split" do
       assert polylist_to_set(PolyBisector.split(@convex)) == polylist_to_set(@convex_split)
       assert polylist_to_set(PolyBisector.split(@non_convex)) == polylist_to_set(@non_convex_split)
+    end
+
+    test "test_line" do
+      assert PolyBisector.test_line(@non_convex, 0, 2) == false
+      assert PolyBisector.test_line(@non_convex, 0, 4) == false
+      assert PolyBisector.test_line(@non_convex, 0, 3) == true
     end
   end
 end
