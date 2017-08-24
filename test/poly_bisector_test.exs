@@ -8,7 +8,7 @@ defmodule PolyBisector.Test do
     [1, 0],
     [0.25, -0.25],
     [0, -1],
-    [0, 0],
+    [0.1, 0.1],
     [-1, 0],
     [-0.25, 0.25]
   ]
@@ -19,14 +19,14 @@ defmodule PolyBisector.Test do
       [0.25, 0.25],
       [1, 0],
       [0.25, -0.25],
-      [0, -1]
     ],
     [
       [0, 1],
-      [-0.25, 0.25],
+      [0.25, -0.25],
       [-1, 0],
-      [-0.25, -0.25],
-      [0, -1]
+      [0.1, 0.1],
+      [0, -1],
+      [-0.25, 0.25]
     ]
   ]
 
@@ -81,24 +81,39 @@ defmodule PolyBisector.Test do
       assert polylist_to_set(PolyBisector.get_segments(@convex)) == polylist_to_set(@convex_segs)
     end
 
+    #@tag :skip
     test "intersect?" do
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[0, 1], [0, -1]]) == true
       assert PolyBisector.intersect?([[0, 1], [0, -1]], [[-1, 0], [1, 0]]) == true
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[5, 1], [5, -1]]) == false
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[-1, 0], [5, -1]]) == false
+      assert PolyBisector.intersect?([[0, 4], [4, 0]], [[0, 1], [4, 10]]) == true
+      assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[-1, 1], [1, 0]]) == false
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[-1, 0], [1, 0]]) == false
+      assert PolyBisector.intersect?([[-1, 0], [0, 0]], [[-1, 0], [0, -1]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[0, 1], [0.25, 0.25]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[0.25, 0.25], [1, 0]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[1, 0], [0.25, -0.25]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[0.25, -0.25], [0, -1]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[0, -1], [0.1,0.1]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[0.1, 0.1], [-1, 0]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[-1, 0], [-0.25, 0.25]]) == false
+      assert PolyBisector.intersect?([[0, 1], [1, 0]], [[-0.25, 0.25], [0, 1]]) == false
+      assert PolyBisector.intersect?([[0, 1], [0, -1]], [[-0.5, -0.9], [0.1,0.1]]) == true
     end
 
-    @tag :skip
     test "split" do
       assert polylist_to_set(PolyBisector.split(@convex)) == polylist_to_set(@convex_split)
       assert polylist_to_set(PolyBisector.split(@non_convex)) == polylist_to_set(@non_convex_split)
     end
 
-    test "test_line" do
-      assert PolyBisector.test_line(@non_convex, 0, 2) == false
-      assert PolyBisector.test_line(@non_convex, 0, 4) == false
-      assert PolyBisector.test_line(@non_convex, 0, 3) == true
+    test "intersect_side?" do
+      seg1 = [[0, 1], [1, 0]]
+      seg2 = [[0, 1], [0, -1]]
+      seg3 = [[0, 1], [0.25, -0.25]]
+      assert PolyBisector.intersect_side?(@non_convex, seg1) == false
+      assert PolyBisector.intersect_side?(@non_convex, seg2) == true
+      assert PolyBisector.intersect_side?(@non_convex, seg3) == false
     end
   end
 end
