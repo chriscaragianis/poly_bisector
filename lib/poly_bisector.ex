@@ -153,8 +153,7 @@ defmodule PolyBisector do
   def split(poly) do
     opp_index = split_coord(poly, 0)
     result = []
-    r = result ++ [Enum.slice(poly, 0..opp_index)] ++ [Enum.slice(poly, opp_index..length(poly)) ++ [hd(poly)]]
-    r
+    result ++ [Enum.slice(poly, 0..opp_index)] ++ [Enum.slice(poly, opp_index..length(poly)) ++ [hd(poly)]]
   end
 
   def area(poly) do
@@ -170,7 +169,7 @@ defmodule PolyBisector do
     case list == prior do
       false ->
         result = []
-        Enum.map(list, fn(x) ->
+        Enum.flat_map(list, fn(x) ->
           cond do
             area(x) > bound -> result ++ split(x)
             true -> result ++ [x]

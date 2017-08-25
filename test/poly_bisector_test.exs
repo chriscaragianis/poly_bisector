@@ -123,6 +123,7 @@ defmodule PolyBisector.Test do
 
     test "split_list" do
       assert length(PolyBisector.split_list([@convex, @non_convex], 1.5, [])) == 3
+      assert length(PolyBisector.split_list([@convex, @non_convex], 0.6, [])) == 6
     end
 
   end
