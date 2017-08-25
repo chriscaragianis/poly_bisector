@@ -115,5 +115,10 @@ defmodule PolyBisector.Test do
       assert PolyBisector.intersect_side?(@non_convex, seg2) == true
       assert PolyBisector.intersect_side?(@non_convex, seg3) == false
     end
+
+    test "area" do
+      assert PolyBisector.area(@convex) == 1.0
+      assert PolyBisector.area(@non_convex) == 0.65
+    end
   end
 end
