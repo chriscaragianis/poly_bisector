@@ -19,14 +19,14 @@ defmodule PolyBisector.Test do
       [0.25, 0.25],
       [1, 0],
       [0.25, -0.25],
+      [0, -1],
+      [0.1, 0.1]
     ],
     [
-      [0, 1],
-      [0.25, -0.25],
-      [-1, 0],
       [0.1, 0.1],
-      [0, -1],
-      [-0.25, 0.25]
+      [-1, 0],
+      [-0.25, 0.25],
+      [0, 1]
     ]
   ]
 
@@ -59,13 +59,13 @@ defmodule PolyBisector.Test do
   @convex_split [
     [
       [0, 1],
+      [1, 0],
       [0, -1],
-      [-1, 0],
     ],
     [
-      [0, 1],
       [0, -1],
-      [1, 0],
+      [-1, 0],
+      [0, 1],
     ]
   ]
 
@@ -103,8 +103,8 @@ defmodule PolyBisector.Test do
     end
 
     test "split" do
-      assert polylist_to_set(PolyBisector.split(@convex)) == polylist_to_set(@convex_split)
-      assert polylist_to_set(PolyBisector.split(@non_convex)) == polylist_to_set(@non_convex_split)
+      assert PolyBisector.split(@convex) == @convex_split
+      assert PolyBisector.split(@non_convex) == @non_convex_split
     end
 
     test "intersect_side?" do

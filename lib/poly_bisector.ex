@@ -131,9 +131,10 @@ defmodule PolyBisector do
   end
 
   def split_coord(poly, step) do
+    IO.inspect({"step", step})
     opp_index = round(:math.floor(length(poly) / 2)) + step
     opp = Enum.at(poly, opp_index)
-    case inspect(intersect_side?(poly, [hd(poly), opp])) do
+    case intersect_side?(poly, [hd(poly), opp]) do
       true -> split_coord(poly, next(step))
       _ -> opp_index
     end
