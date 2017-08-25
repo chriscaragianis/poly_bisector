@@ -4,7 +4,7 @@
 
 Subdivides a polygons in a list until all are less than a given area
 
-`PolyBisector(<List of polygons>, <area bound>)
+`PolyBisector(<List of polygons>, <area bound>)`
 
 ## Installation
 
