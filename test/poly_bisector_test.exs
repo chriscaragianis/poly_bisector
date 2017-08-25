@@ -117,7 +117,7 @@ defmodule PolyBisector.Test do
     end
 
     test "area" do
-      assert PolyBisector.area(@convex) == 1.0
+      assert PolyBisector.area(@convex) == 2.0
       assert PolyBisector.area(@non_convex) == 0.65
     end
   end

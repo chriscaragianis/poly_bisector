@@ -21,6 +21,17 @@ defmodule PolyBisector do
     y - (m * x) - k + (m * h)
   end
 
+  defp det(p, q) do
+    [x1, y1] = p
+    [x2, y2] = q
+    (x1 * y2) - (x2 * y1)
+  end
+
+  defp det_seg(seg) do
+    [p, q] = seg
+    det(p, q)
+  end
+
   def get_segments(poly) do
     sides = length(poly)
     poly
@@ -144,6 +155,14 @@ defmodule PolyBisector do
     result = []
     r = result ++ [Enum.slice(poly, 0..opp_index)] ++ [Enum.slice(poly, opp_index..length(poly)) ++ [hd(poly)]]
     r
+  end
+
+  def area(poly) do
+    get_segments(poly)
+    |> Enum.map(fn(x) -> det_seg(x) end)
+    |> List.foldr(0, fn(x, acc) -> x + acc end)
+    |> Kernel./(2)
+    |> abs
   end
 
 end
