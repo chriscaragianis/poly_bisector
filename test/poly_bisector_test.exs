@@ -1,5 +1,4 @@
 defmodule PolyBisector.Test do
-  import PolyBisector
   use ExUnit.Case
 
   @non_convex [
@@ -94,7 +93,7 @@ defmodule PolyBisector.Test do
     [-1, 0],
     [0.0, 0.0],
   ]
-  @degenerate MapSet.new([ [0, 1], [1, 1]])
+  @degenerate [ [0, 1], [1, 1]]
 
   defp polylist_to_set(list) do
     setlist = Enum.map(list, fn(x) -> MapSet.new(x) end)
@@ -145,13 +144,14 @@ defmodule PolyBisector.Test do
       #assert PolyBisector.area(@non_convex) == 0.65
     end
 
-    test "split_list" do
-      assert length(PolyBisector.split_list([@convex, @non_convex], 1.5, [])) == 3
-      assert length(PolyBisector.split_list([@convex], 0.6, [])) == 4
-      assert length(PolyBisector.split_list([@non_convex], 0.6, [])) == 2
-      assert length(PolyBisector.split_list([@non_convex], 0.3, [])) == 3
-      assert length(PolyBisector.split_list([@non_convex], 0.1, [])) == 17
-      assert length(PolyBisector.split_list([@convex, @non_convex], 0.6, [])) == 6
+    test "split_polys" do
+      assert length(PolyBisector.split_polys([@convex, @non_convex], 1.5)) == 3
+      assert length(PolyBisector.split_polys([@convex], 0.6)) == 4
+      assert length(PolyBisector.split_polys([@non_convex], 0.6)) == 2
+      assert length(PolyBisector.split_polys([@non_convex], 0.3)) == 3
+      assert length(PolyBisector.split_polys([@non_convex], 0.1)) == 17
+      assert length(PolyBisector.split_polys([@convex, @non_convex], 0.6)) == 6
+      assert length(PolyBisector.split_polys([@convex, @non_convex, @degenerate], 0.6)) == 6
     end
 
     test "split_side" do

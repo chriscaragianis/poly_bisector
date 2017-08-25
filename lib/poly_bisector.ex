@@ -3,8 +3,6 @@ defmodule PolyBisector do
   Documentation for PolyBisector.
   """
 
-  @doc """
-  """
   defp slope(point1, point2) do
     [x1, y1] = point1
     [x2, y2] = point2
@@ -33,7 +31,6 @@ defmodule PolyBisector do
   end
 
   def get_segments(poly) do
-    sides = length(poly)
     poly
     |> Stream.with_index
     |> Enum.map(fn(x) ->
@@ -79,21 +76,9 @@ defmodule PolyBisector do
     end
   end
 
-  defp flip_seg(seg) do
-    [p1, p2] = seg
-    [p2, p1]
-  end
-
-  defp point_between?(point, p1, p2) do
-    [x, _] = point
-    [a, _] = p1
-    [b, _] = p1
-    (a < x && b > x) || (a > x && b < x)
-  end
-
   defp one_side_intersect?(seg1, seg2) do
-    [p11 = [x11, y11], p12 = [x12, y12]] = seg1
-    [p21 = [x21, y21], p22 = [x22, y22]] = seg2
+    [p11, p12] = seg1
+    [p21, p22] = seg2
     m = slope(p11, p12)
     n = slope(p21, p22)
     k1 = case n do
@@ -160,13 +145,13 @@ defmodule PolyBisector do
     list
     |> Stream.with_index
     |> Enum.map(fn(x) ->
-      {point, index} = x
+      {_, index} = x
       Enum.at(list, rem((index + 1), length(list)))
     end)
   end
 
   def split_side(poly) do
-    {l, pt, ind} = poly
+    {_, pt, ind} = poly
     |> Stream.with_index
     |> Enum.map(fn(x) ->
       {point, index} = x
@@ -174,8 +159,8 @@ defmodule PolyBisector do
       {sq_length([point, next]), midpoint([point, next]), index}
     end)
     |> List.foldr({0, 0, 0}, fn(x, acc) ->
-      {length, mid, ind} = x
-      {a_length, a_point, _} = acc
+      {length, mid, _} = x
+      {a_length, _, _} = acc
       cond do
         length > a_length -> x
         true -> acc
@@ -226,6 +211,12 @@ defmodule PolyBisector do
         |> split_list(bound, list)
       _ -> list
     end
+  end
+
+  def split_polys(list, bound) do
+    list
+    |> Enum.filter(fn(x) -> area(x) > 0 end)
+    |> split_list(bound, [])
   end
 
 end
