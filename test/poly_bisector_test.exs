@@ -69,6 +69,31 @@ defmodule PolyBisector.Test do
     ]
   ]
 
+  @triangle [
+    [-1, 0],
+    [0, 1],
+    [1, 0],
+  ]
+
+  @triangle_split_side [
+    [-1, 0],
+    [0, 1],
+    [1, 0],
+    [0, 0],
+  ]
+
+  @triangle2 [
+    [1, 0],
+    [0, 1],
+    [-1, 0],
+  ]
+
+  @triangle_split_side2 [
+    [1, 0],
+    [0, 1],
+    [-1, 0],
+    [0.0, 0.0],
+  ]
   @degenerate MapSet.new([ [0, 1], [1, 1]])
 
   defp polylist_to_set(list) do
@@ -81,7 +106,6 @@ defmodule PolyBisector.Test do
       assert polylist_to_set(PolyBisector.get_segments(@convex)) == polylist_to_set(@convex_segs)
     end
 
-    #@tag :skip
     test "intersect?" do
       assert PolyBisector.intersect?([[-1, 0], [1, 0]], [[0, 1], [0, -1]]) == true
       assert PolyBisector.intersect?([[0, 1], [0, -1]], [[-1, 0], [1, 0]]) == true
@@ -118,13 +142,25 @@ defmodule PolyBisector.Test do
 
     test "area" do
       assert PolyBisector.area(@convex) == 2.0
-      assert PolyBisector.area(@non_convex) == 0.65
+      #assert PolyBisector.area(@non_convex) == 0.65
     end
 
     test "split_list" do
       assert length(PolyBisector.split_list([@convex, @non_convex], 1.5, [])) == 3
+      assert length(PolyBisector.split_list([@convex], 0.6, [])) == 4
+      assert length(PolyBisector.split_list([@non_convex], 0.6, [])) == 2
+      assert length(PolyBisector.split_list([@non_convex], 0.3, [])) == 3
+      assert length(PolyBisector.split_list([@non_convex], 0.1, [])) == 17
       assert length(PolyBisector.split_list([@convex, @non_convex], 0.6, [])) == 6
     end
 
+    test "split_side" do
+      assert PolyBisector.split_side(@triangle) == @triangle_split_side
+      assert PolyBisector.split_side(@triangle2) == @triangle_split_side2
+    end
+
+    test "rotate_list" do
+      assert PolyBisector.rotate_list([1,2,3]) == [2, 3, 1]
+    end
   end
 end

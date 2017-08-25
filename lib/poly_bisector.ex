@@ -130,10 +130,6 @@ defmodule PolyBisector do
     List.foldl(values, false, fn(x, acc) -> x || acc end)
   end
 
-  defp score_vertex(poly, index) do
-    abs(length(poly) / 2 - index)
-  end
-
   defp next(n) do
     cond do
       n < 0 -> (-1 * n)
@@ -150,10 +146,63 @@ defmodule PolyBisector do
     end
   end
 
+  defp sq_length(seg) do
+    [[x1, y1], [x2, y2]] = seg
+    :math.pow((x2 - x1), 2) + :math.pow((y2 - y1), 2)
+  end
+
+  defp midpoint(seg) do
+    [[x1, y1], [x2, y2]] = seg
+    [(x1 + x2) / 2, (y1 + y2) / 2]
+  end
+
+  def rotate_list(list) do
+    list
+    |> Stream.with_index
+    |> Enum.map(fn(x) ->
+      {point, index} = x
+      Enum.at(list, rem((index + 1), length(list)))
+    end)
+  end
+
+  def split_side(poly) do
+    {l, pt, ind} = poly
+    |> Stream.with_index
+    |> Enum.map(fn(x) ->
+      {point, index} = x
+      next = Enum.at(poly, rem((index + 1), length(poly)))
+      {sq_length([point, next]), midpoint([point, next]), index}
+    end)
+    |> List.foldr({0, 0, 0}, fn(x, acc) ->
+      {length, mid, ind} = x
+      {a_length, a_point, _} = acc
+      cond do
+        length > a_length -> x
+        true -> acc
+      end
+    end)
+    List.insert_at(poly, ind + 1, pt)
+  end
+
   def split(poly) do
-    opp_index = split_coord(poly, 0)
+    p = case length(poly) do
+      3 -> split_side(poly)
+      _ -> poly
+    end
+    opp_index = split_coord(p, 0)
     result = []
-    result ++ [Enum.slice(poly, 0..opp_index)] ++ [Enum.slice(poly, opp_index..length(poly)) ++ [hd(poly)]]
+    r = result ++ [Enum.slice(p, 0..opp_index)] ++ [Enum.slice(p, opp_index..length(p)) ++ [hd(p)]]
+    t = r
+        |> Enum.map(fn(x) -> area(x) end)
+        |> List.foldr(1, fn(x, acc) -> cond do
+          x < acc -> x
+          true -> acc
+        end
+        end)
+    case t do
+      0.0 -> split(rotate_list(poly))
+      _ -> r
+    end
   end
 
   def area(poly) do
@@ -165,7 +214,6 @@ defmodule PolyBisector do
   end
 
   def split_list(list, bound, prior) do
-    IO.inspect list
     case list == prior do
       false ->
         result = []
