@@ -120,5 +120,10 @@ defmodule PolyBisector.Test do
       assert PolyBisector.area(@convex) == 2.0
       assert PolyBisector.area(@non_convex) == 0.65
     end
+
+    test "split_list" do
+      assert length(PolyBisector.split_list([@convex, @non_convex], 1.5, [])) == 3
+    end
+
   end
 end

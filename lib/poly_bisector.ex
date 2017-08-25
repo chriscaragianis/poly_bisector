@@ -165,4 +165,20 @@ defmodule PolyBisector do
     |> abs
   end
 
+  def split_list(list, bound, prior) do
+    IO.inspect list
+    case list == prior do
+      false ->
+        result = []
+        Enum.map(list, fn(x) ->
+          cond do
+            area(x) > bound -> result ++ split(x)
+            true -> result ++ [x]
+          end
+        end)
+        |> split_list(bound, list)
+      _ -> list
+    end
+  end
+
 end
