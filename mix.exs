@@ -28,6 +28,9 @@ defmodule PolyBisector.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:poison, "~> 3.1"}]
+    [
+      {:poison, "~> 3.1"},
+      {:geo, "~> 2.0"}
+    ]
   end
 end
