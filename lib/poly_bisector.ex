@@ -94,7 +94,6 @@ defmodule PolyBisector do
       {_, _, _, _, true} -> false
       {"vert", 0.0, _, _, _} -> perp_intersect?(seg1, seg2)
       {0.0, "vert", _, _, _} -> perp_intersect?(seg2, seg1)
-      #{_, _, "vert", "vert", _} -> point_between?(p21, p11, p12)
       {"vert", _, _, _, _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
       {_, "vert", _, _, _} -> one_side_intersect?(rotate90_seg(seg2), rotate90_seg(seg1))
       {_, _, "vert", _, _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
