@@ -17,7 +17,11 @@ defmodule PolyBisector.GeoJSONProducer.Test do
   describe "GeoJSONProducer" do
     test "produces valid GeoJSON" do
       {:ok, result} = GeoJSONProducer.toGeoJSON(@non_convex)
+      {:ok, obj} = Poison.decode(result)
       assert is_binary(result)
+      assert is_map(obj)
+      assert Map.has_key?(obj, "type")
+      assert Map.has_key?(obj, "features")
     end
   end
 end
