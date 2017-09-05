@@ -1,20 +1,27 @@
 defmodule PolyBisector.GeoJSONProducer do
 
-  @boilerPlate = %{
-    type: "FeatureCollection",
-    features: []
-  }
-
-  @boilerFeature = %{
-    type: "Feature",
-    properties: %{},
-    geometry: {
-      type: "Polygon",
-      coordinates: []
+  defp geoJSONFormatter(featuresArray) do
+    %{
+      type: "FeatureCollection",
+      features: featuresArray
     }
-  }
+  end
+
+  defp featureFormatter(coords) do
+    %{
+      type: "Feature",
+      properties: %{},
+      geometry: %{
+        type: "Polygon",
+        coordinates: coords
+      }
+    }
+  end
+
   def toGeoJSON(input_list) do
-    Poison.encode(%{input: input_list})
+    [featureFormatter(input_list)]
+    |> geoJSONFormatter
+    |> Poison.encode
   end
 
 end
