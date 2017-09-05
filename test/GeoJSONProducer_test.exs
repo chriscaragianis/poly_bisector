@@ -16,7 +16,8 @@ defmodule PolyBisector.GeoJSONProducer.Test do
 
   describe "GeoJSONProducer" do
     test "produces valid GeoJSON" do
-      assert is_binary(GeoJSONProducer.toGeoJSON(@non_convex))
+      {:ok, result} = GeoJSONProducer.toGeoJSON(@non_convex)
+      assert is_binary(result)
     end
   end
 end
