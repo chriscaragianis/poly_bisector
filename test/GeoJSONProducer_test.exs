@@ -47,6 +47,14 @@ defmodule PolyBisector.GeoJSONProducer.Test do
                 [-118.873980045319, 34.1756256284364],
                 [-118.874130249023, 34.176708515026]
               ]
+            ],
+            [
+              [
+                [-118.873250484467, 34.1762114540545],
+                [-118.872842788696, 34.1746492433684],
+                [-118.870525360107, 34.1751818184423],
+                [-118.871855735779, 34.1762469585067]
+              ]
             ]
           ]
         },
@@ -97,10 +105,11 @@ defmodule PolyBisector.GeoJSONProducer.Test do
     end
   end
 
-  describe "getCoords" do
-    test "getCoords" do
-      result = PolyBisector.getCoords(@realinput)
+  describe "getPolys" do
+    test "getPolys" do
+      result = PolyBisector.getCoords(hd(@realinput))
       assert is_list(result)
+      assert length(result) == 2
     end
   end
 

@@ -26,7 +26,10 @@ defmodule PolyBisector do
     |> split_list(bound, [])
   end
 
-  def getCoords(input_list) do
-    input_list
+  @doc """
+    Takes a MultiPolygon and returns a list of polygons (_not_ linear rings!)
+  """
+  def getCoords(input) do
+    for n <- input["coordinates"], do: hd(n) #NO HOLES IN GONS
   end
 end
