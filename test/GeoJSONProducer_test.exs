@@ -39,13 +39,14 @@ defmodule PolyBisector.GeoJSONProducer.Test do
     #GeoJSONProducer.toGeoJSON(coords)
   end
 
-  describe "GeoJSONProducer" do
-    test "produces valid GeoJSON" do
-      result = GeoJSONProducer.toGeoJSON(@non_convex)
-      assert is_list(result)
-      assert Map.has_key?(hd(result), :type)
-      assert Map.has_key?(hd(result), :coordinates)
+  describe "MPProducer" do
+    test "produces a MP map" do
+      result = GeoJSONProducer.mPProducer(@non_convex)
+      assert is_map(result)
+      assert Map.has_key?(result, :type)
+      assert Map.has_key?(result, :coordinates)
     end
   end
+
 end
 
