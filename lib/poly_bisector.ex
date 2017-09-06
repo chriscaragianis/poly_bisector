@@ -26,4 +26,7 @@ defmodule PolyBisector do
     |> split_list(bound, [])
   end
 
+  def getCoords(input_list) do
+    input_list
+  end
 end

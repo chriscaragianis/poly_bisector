@@ -1,4 +1,4 @@
-defmodule PolyBisector.GeoJSONProducer do
+defmodule PolyBisector.MPProducer do
 
   defp featureFormatter(coords) do
     %{
