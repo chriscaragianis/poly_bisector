@@ -45,6 +45,24 @@ defmodule PolyBisector.GeoJSONProducer.Test do
       assert is_map(result)
       assert Map.has_key?(result, :type)
       assert Map.has_key?(result, :coordinates)
+      assert result == %{
+        type: "MultiPolygon",
+        coordinates: [
+          [
+            [
+              [0, 1],
+              [0.25, 0.25],
+              [1, 0],
+              [0.25, -0.25],
+              [0, -1],
+              [0.1, 0.1],
+              [-1, 0],
+              [-0.25, 0.25],
+              [0, 1],
+            ]
+          ]
+        ]
+      }
     end
   end
 
