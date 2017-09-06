@@ -53,7 +53,8 @@ defmodule PolyBisector.GeoJSONProducer.Test do
                 [-118.873250484467, 34.1762114540545],
                 [-118.872842788696, 34.1746492433684],
                 [-118.870525360107, 34.1751818184423],
-                [-118.871855735779, 34.1762469585067]
+                [-118.871855735779, 34.1762469585067],
+                [-118.873250484467, 34.1762114540545]
               ]
             ]
           ]
@@ -66,7 +67,8 @@ defmodule PolyBisector.GeoJSONProducer.Test do
                 [-118.873250484467, 34.1762114540545],
                 [-118.872842788696, 34.1746492433684],
                 [-118.870525360107, 34.1751818184423],
-                [-118.871855735779, 34.1762469585067]
+                [-118.871855735779, 34.1762469585067],
+                [-118.873250484467, 34.1762114540545],
               ]
             ]
           ],
@@ -116,6 +118,7 @@ defmodule PolyBisector.GeoJSONProducer.Test do
       result = PolyBisector.getAllPolys(@realinput)
       assert is_list(result)
       assert length(result) == 3
+      assert List.first(hd(result)) != List.last(hd(result))
     end
   end
 

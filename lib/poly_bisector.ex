@@ -30,7 +30,12 @@ defmodule PolyBisector do
     Takes a MultiPolygon and returns a list of polygons (_not_ linear rings!)
   """
   def getPolys(input) do
-    for n <- input["coordinates"], do: hd(n) #NO HOLES IN GONS
+    for n <- input["coordinates"] do
+      cond do
+        List.first(hd(n)) == List.last(hd(n)) -> tl(hd(n))
+        true -> hd(n) #NO HOLES IN GONS
+      end
+    end
   end
 
   @doc """
