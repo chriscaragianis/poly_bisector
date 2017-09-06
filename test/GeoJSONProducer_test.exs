@@ -107,9 +107,15 @@ defmodule PolyBisector.GeoJSONProducer.Test do
 
   describe "getPolys" do
     test "getPolys" do
-      result = PolyBisector.getCoords(hd(@realinput))
+      result = PolyBisector.getPolys(hd(@realinput))
       assert is_list(result)
       assert length(result) == 2
+    end
+
+    test "getAllPolys" do
+      result = PolyBisector.getAllPolys(@realinput)
+      assert is_list(result)
+      assert length(result) == 3
     end
   end
 

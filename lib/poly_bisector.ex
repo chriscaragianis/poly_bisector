@@ -29,7 +29,17 @@ defmodule PolyBisector do
   @doc """
     Takes a MultiPolygon and returns a list of polygons (_not_ linear rings!)
   """
-  def getCoords(input) do
+  def getPolys(input) do
     for n <- input["coordinates"], do: hd(n) #NO HOLES IN GONS
+  end
+
+  @doc """
+    Takes a list of multipolygons, gives a list of polygons
+  """
+  def getAllPolys(input_list) do
+    for n <- input_list do
+      getPolys(n)
+    end
+    |> List.foldr([], fn(x, acc) -> acc ++ x end)
   end
 end
