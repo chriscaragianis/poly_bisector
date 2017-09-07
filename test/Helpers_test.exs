@@ -1,7 +1,7 @@
-defmodule PolyBisector.Helpers.Test do
+defmodule PolyPartition.Helpers.Test do
   use ExUnit.Case
-  alias PolyBisector.Helpers
-  alias PolyBisector.Fixtures
+  alias PolyPartition.Helpers
+  alias PolyPartition.Fixtures
 
   @intersect_test_cases [
     {[[-1, 0], [1, 0]], [[0, 1], [0, -1]], true, 0},
@@ -65,7 +65,7 @@ defmodule PolyBisector.Helpers.Test do
 
     test "area" do
       assert_in_delta Helpers.area(Fixtures.realsimple), 11.3827, 0.01
-      assert_in_delta Helpers.area(Fixtures.realcomplex), 86.63506, 0.01
+      assert_in_delta  Helpers.area(Fixtures.realcomplex), 86.63506, 0.01
     end
 
     test "rotate_list" do

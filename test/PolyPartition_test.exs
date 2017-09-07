@@ -1,7 +1,7 @@
-defmodule PolyBisector.Test do
+defmodule PolyPartition.Test do
   use ExUnit.Case
-  alias PolyBisector.Helpers
-  alias PolyBisector.Fixtures
+  alias PolyPartition.Helpers
+  alias PolyPartition.Fixtures
 
   @split_polys_test_cases [
     {0, [Fixtures.realsimple, Fixtures.realcomplex], 150, 3},
@@ -13,11 +13,11 @@ defmodule PolyBisector.Test do
     {6, [Fixtures.realsimple, Fixtures.realcomplex, Fixtures.degenerate], 60, 6},
   ]
 
-  describe "PolyBisector" do
+  describe "PolyPartition" do
     test "split_polys" do
       Enum.map(@split_polys_test_cases, fn(x) ->
         {n, a, b, c} = x
-        assert PolyBisector.split_polys(a, b) |> length == c,
+        assert PolyPartition.split_polys(a, b) |> length == c,
           ~s(split_polys case #{n} failed )
       end)
     end

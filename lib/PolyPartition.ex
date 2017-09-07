@@ -1,6 +1,6 @@
-defmodule PolyBisector do
-  alias PolyBisector.Helpers
-  alias PolyBisector.MPProducer
+defmodule PolyPartition do
+  alias PolyPartition.Helpers
+  alias PolyPartition.MPProducer
   @moduledoc """
   Documentation for PolyBisector.
   """

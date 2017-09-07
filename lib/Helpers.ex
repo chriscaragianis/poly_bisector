@@ -1,4 +1,4 @@
-defmodule PolyBisector.Helpers do
+defmodule PolyPartition.Helpers do
   def slope(point1, point2) do
     [x1, y1] = point1
     [x2, y2] = point2

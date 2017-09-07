@@ -1,4 +1,20 @@
-defmodule PolyBisector.MPProducer do
+defmodule PolyPartition.Output do
+
+
+  def wrap_geoJSON_feature(geo) do
+    %{
+      type: "Feature",
+      properties: %{},
+      geometry: geo,
+    }
+  end
+
+  def wrap_geoJSON(features) do
+    %{
+      type: "FeatureCollection",
+      features: features
+    }
+  end
 
   defp featureFormatter(coords) do
     %{
