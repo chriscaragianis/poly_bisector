@@ -50,22 +50,22 @@ defmodule PolyBisector.Helpers.Test do
     end
 
     test "split" do
-      assert Helpers.split(@convex) == @convex_split
-      assert Helpers.split(@non_convex) == @non_convex_split
+      assert Helpers.split(Fixtures.convex) == Fixtures.convex_split
+      assert Helpers.split(Fixtures.non_convex) == Fixtures.non_convex_split
     end
 
     test "intersect_side?" do
       seg1 = [[0, 1], [1, 0]]
       seg2 = [[0, 1], [0, -1]]
       seg3 = [[0, 1], [0.25, -0.25]]
-      assert Helpers.intersect_side?(@non_convex, seg1) == false
-      assert Helpers.intersect_side?(@non_convex, seg2) == true
-      assert Helpers.intersect_side?(@non_convex, seg3) == false
+      assert Helpers.intersect_side?(Fixtures.non_convex, seg1) == false
+      assert Helpers.intersect_side?(Fixtures.non_convex, seg2) == true
+      assert Helpers.intersect_side?(Fixtures.non_convex, seg3) == false
     end
 
     test "area" do
-      assert Helpers.area(@convex) == 2.0
-      #assert Helpers.area(@non_convex) == 0.65
+      assert Helpers.area(Fixtures.convex) == 2.0
+      assert Helpers.area(Fixtures.non_convex) == 0.65
     end
 
     test "rotate_list" do
@@ -73,8 +73,8 @@ defmodule PolyBisector.Helpers.Test do
     end
 
     test "split_side" do
-      assert Helpers.split_side(@triangle) == @triangle_split_side
-      assert Helpers.split_side(@triangle2) == @triangle_split_side2
+      assert Helpers.split_side(Fixtures.triangle) == Fixtures.triangle_split_side
+      assert Helpers.split_side(Fixtures.triangle2) == Fixtures.triangle_split_side2
     end
   end
 end
