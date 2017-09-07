@@ -7,10 +7,13 @@ defmodule PolyPartition.Output.Test do
 
   describe "Output" do
     test "produces a MP map" do
+      closed = Fixtures.non_convex ++ [hd(Fixtures.non_convex)]
       result = Output.mPProducer(Fixtures.non_convex)
+      result_closed = Output.mPProducer(closed)
       assert is_map(result)
       assert Map.has_key?(result, :type)
       assert Map.has_key?(result, :coordinates)
+      assert result == result_closed
       assert result == %{
         type: "MultiPolygon",
         coordinates: [
@@ -31,22 +34,5 @@ defmodule PolyPartition.Output.Test do
       }
     end
   end
-
-  describe "getPolys" do
-    test "getPolys" do
-      result = PolyPartition.getPolys(hd(Fixtures.realinput))
-      assert is_list(result)
-      assert length(result) == 2
-    end
-
-    test "getAllPolys" do
-      result = PolyPartition.getAllPolys(Fixtures.realinput)
-      assert is_list(result)
-      assert length(result) == 3
-      assert List.first(hd(result)) != List.last(hd(result))
-    end
-  end
-
-
 end
 

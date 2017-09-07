@@ -24,7 +24,7 @@ defmodule PolyPartition.Output do
   end
 
   @doc """
-    Takes a polygon list (open) returns a MP (with closed linear ring)
+    Takes a polygon list (open or closed) returns a MP (with closed linear ring)
   """
   def mPProducer(coords) do
     cds = cond do
