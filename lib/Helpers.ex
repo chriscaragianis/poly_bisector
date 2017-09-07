@@ -63,24 +63,27 @@ defmodule PolyPartition.Helpers do
   end
 
   def split(poly, retries) do
-    p = case length(poly) do
-      3 -> split_side(poly)
-      _ -> poly
-    end
-    opp_index = split_coord(p, 0)
-    result = []
-    r = result ++ rotate_list([Enum.slice(p, 0..opp_index)]) ++ [Enum.slice(p, opp_index..length(p)) ++ [hd(p)]]
-    t = r
-        |> Enum.map(fn(x) -> Geometry.area(x) end)
-        |> List.foldr(1, fn(x, acc) -> cond do
-          x < acc -> x
-          true -> acc
-        end
-        end)
-    case {t, retries >= length(poly) - 1} do
-      {0.0, false} -> split(rotate_list(poly), retries + 1) #split failed, try another vertex
-      _ -> r
-    end
+    cond do
+      retries >= length(poly) -> poly
+      true ->  p = case length(poly) do
+              3 -> split_side(poly)
+              _ -> poly
+            end
+            opp_index = split_coord(p, 0)
+            result = []
+            r = result ++ rotate_list([Enum.slice(p, 0..opp_index)]) ++ [Enum.slice(p, opp_index..length(p)) ++ [hd(p)]]
+            t = r
+                |> Enum.map(fn(x) -> Geometry.area(x) end)
+                |> List.foldr(1, fn(x, acc) -> cond do
+                    x < acc -> x
+                    true -> acc
+                  end
+                end)
+            case {t, retries >= length(poly) - 1} do
+              {0.0, false} -> split(rotate_list(poly), retries + 1) #split failed, try another vertex
+              _ -> r
+            end
+            end
   end
 
 end
