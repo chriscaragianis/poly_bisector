@@ -4,12 +4,13 @@ defmodule PolyPartition.Test do
 
   @split_polys_test_cases [
     {1, [Fixtures.realsimple], 6, 3},
-    {0, [Fixtures.realsimple, Fixtures.realcomplex], 50, 3},
-    {2, [Fixtures.realcomplex], 60, 2},
-    {3, [Fixtures.realcomplex], 30, 3},
-    {4, [Fixtures.realcomplex], 10, 17},
-    {5, [Fixtures.realsimple, Fixtures.realcomplex], 60, 6},
-    {6, [Fixtures.realsimple, Fixtures.realcomplex, Fixtures.degenerate], 60, 6},
+    #{0, [Fixtures.realsimple, Fixtures.realcomplex], 50, 3},
+    #
+    #{2, [Fixtures.realcomplex], 60, 2},
+    #{3, [Fixtures.realcomplex], 30, 3},
+    #{4, [Fixtures.realcomplex], 10, 17},
+    #{5, [Fixtures.realsimple, Fixtures.realcomplex], 60, 6},
+    #{6, [Fixtures.realsimple, Fixtures.realcomplex, Fixtures.degenerate], 60, 6},
   ]
 
     test "getPolys" do

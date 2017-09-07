@@ -26,7 +26,6 @@ defmodule PolyPartition do
     list
     |> Enum.filter(fn(x) -> Geometry.area(x) > 0 end)
     |> split_list(bound, [])
-    |> IO.inspect
   end
 
   @doc """

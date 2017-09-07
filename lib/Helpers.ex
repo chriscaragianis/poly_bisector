@@ -22,13 +22,12 @@ defmodule PolyPartition.Helpers do
   def next(n) do
     cond do
       n < 0 -> (-1 * n)
-      true -> n + 1
+      true -> -1 * (n + 1)
     end
   end
 
   def split_coord(poly, step) do
     opp_index = round(:math.floor(length(poly) / 2)) + step
-    opp = Enum.at(poly, opp_index)
     case Geometry.good_cut?(poly, opp_index) do
       false -> split_coord(poly, next(step))
       _ -> opp_index
@@ -53,7 +52,7 @@ defmodule PolyPartition.Helpers do
       {Geometry.sq_length([point, next]), Geometry.midpoint([point, next]), index}
     end)
     |> List.foldr({0, 0, 0}, fn(x, acc) ->
-      {length, mid, _} = x
+      {length, _, _} = x
       {a_length, _, _} = acc
       cond do
         length > a_length -> x
@@ -64,8 +63,6 @@ defmodule PolyPartition.Helpers do
   end
 
   def split(poly, retries) do
-    IO.inspect "splitting..."
-    IO.inspect poly
     p = case length(poly) do
       3 -> split_side(poly)
       _ -> poly

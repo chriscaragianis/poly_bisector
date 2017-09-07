@@ -67,12 +67,16 @@ defmodule PolyPartition.Geometry do
     sides of the polygon
   """
   def get_segments(poly) do
-    poly
+    poly ++ [hd(poly)]
     |> Stream.with_index
     |> Enum.map(fn(x) ->
       {point, index} = x
-      [point, Enum.at(poly, rem((index + 1), length(poly)))]
+      cond do
+        index != 0 -> [point, Enum.at(poly, index - 1)]
+        true -> nil
+      end
     end)
+    |> List.delete(nil)
   end
 
   @doc """
@@ -143,8 +147,8 @@ defmodule PolyPartition.Geometry do
     new2 = Enum.slice(poly, 0..opp_index - 1) ++ [Enum.at(poly, opp_index)]
     cond do
       opp_index == 1 || opp_index == length(poly) - 1 -> false
-      area(new1) > area(poly) || area(new2) > area(poly) -> false
       intersect_side?(poly, [hd(poly), Enum.at(poly, opp_index)]) -> false
+      area(new1) > area(poly) || area(new2) > area(poly) -> false
       true -> true
     end
   end
