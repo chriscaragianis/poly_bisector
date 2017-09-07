@@ -64,8 +64,8 @@ defmodule PolyBisector.Helpers.Test do
     end
 
     test "area" do
-      assert Helpers.area(Fixtures.convex) == 2.0
-      assert Helpers.area(Fixtures.non_convex) == 0.65
+      assert_in_delta Helpers.area(Fixtures.realsimple), 11.3827, 0.01
+      assert_in_delta Helpers.area(Fixtures.realcomplex), 86.63506, 0.01
     end
 
     test "rotate_list" do
