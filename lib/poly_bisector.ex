@@ -1,5 +1,6 @@
 defmodule PolyBisector do
   alias PolyBisector.Helpers
+  alias PolyBisector.MPProducer
   @moduledoc """
   Documentation for PolyBisector.
   """
@@ -47,4 +48,35 @@ defmodule PolyBisector do
     end
     |> List.foldr([], fn(x, acc) -> acc ++ x end)
   end
+
+  def get_split(input, bound) do
+    getAllPolys(input)
+    |> split_polys(bound)
+    |> Enum.map(fn(x) -> MPProducer.mPProducer(x) end)
+  end
+
+  def get_split_geojson(input, bound) do
+    getAllPolys(input)
+    |> split_polys(bound)
+    |> Enum.map(fn(x) -> MPProducer.mPProducer(x) |> wrap_geoJSON_feature end)
+    |> wrap_geoJSON
+    |> Poison.encode
+  end
+
+  def wrap_geoJSON_feature(geo) do
+    %{
+      type: "Feature",
+      properties: %{},
+      geometry: geo,
+    }
+  end
+
+  def wrap_geoJSON(features) do
+    %{
+      type: "FeatureCollection",
+      features: features
+    }
+  end
 end
+
+

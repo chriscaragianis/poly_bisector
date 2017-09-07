@@ -186,11 +186,15 @@ defmodule PolyBisector.Helpers do
   end
 
   def area(poly) do
+    sample_lat = (List.last(hd(poly)) * 2 * :math.pi)/360
+    lat_adj = :math.cos(sample_lat)
+    factor = :math.pow(((69.0 * lat_adj) + 69.0) / 2.0, 2)
     get_segments(poly)
     |> Enum.map(fn(x) -> det_seg(x) end)
     |> List.foldr(0, fn(x, acc) -> x + acc end)
-    |> Kernel./(2)
+    |> Kernel./(2.0)
     |> abs
+    |> Kernel.*(factor)
   end
 end
 
