@@ -2,6 +2,7 @@ defmodule PolyPartition.Geometry.Test do
   use ExUnit.Case
   alias PolyPartition.Geometry
   alias PolyPartition.Fixtures
+  alias PolyPartition.Helpers
 
   @intersect_test_cases [
     {[[-1, 0], [1, 0]], [[0, 1], [0, -1]], true, 0},
@@ -23,12 +24,43 @@ defmodule PolyPartition.Geometry.Test do
     {[[0, 1], [0, -1]], [[-0.5, -0.9], [0.1,0.1]], true, 16}
   ]
 
+  @good_cutcase [
+            [
+              -85.50659179687499,
+              38.148597559924355
+            ],
+            [
+              -85.46401977539062,
+              37.97451499202459
+            ],
+            [
+              -85.24017333984375,
+              38.003737861469666
+            ],
+            [
+              -85.26763916015625,
+              38.18638677411551
+            ],
+            [
+              -85.37200927734375,
+              38.04484662140698
+            ],
+          ]
+
   defp polylist_to_set(list) do
     setlist = Enum.map(list, fn(x) -> MapSet.new(x) end)
     MapSet.new(setlist)
   end
 
   describe "Geometry helpers" do
+    test "good_cut?" do
+      next = Helpers.rotate_list(@good_cutcase)
+      assert Geometry.good_cut?(@good_cutcase, 3) == false
+      assert Geometry.good_cut?(@good_cutcase, 2) == false
+      assert Geometry.good_cut?(@good_cutcase, 1) == false
+      assert Geometry.good_cut?(next, 3) == true
+    end
+
     test "get segments" do
       assert do
         Fixtures.convex
@@ -49,11 +81,6 @@ defmodule PolyPartition.Geometry.Test do
       end)
     end
 
-    test "split" do
-      assert Geometry.split(Fixtures.convex) == Fixtures.convex_split
-      assert Geometry.split(Fixtures.non_convex) == Fixtures.non_convex_split
-    end
-
     test "intersect_side?" do
       seg1 = [[0, 1], [1, 0]]
       seg2 = [[0, 1], [0, -1]]
@@ -68,10 +95,6 @@ defmodule PolyPartition.Geometry.Test do
       assert_in_delta  Geometry.area(Fixtures.realcomplex), 86.63506, 0.01
     end
 
-    test "split_side" do
-      assert Geometry.split_side(Fixtures.triangle) == Fixtures.triangle_split_side
-      assert Geometry.split_side(Fixtures.triangle2) == Fixtures.triangle_split_side2
-    end
   end
 end
 

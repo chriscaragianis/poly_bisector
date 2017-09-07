@@ -1,6 +1,7 @@
 defmodule PolyPartition do
   alias PolyPartition.Helpers
   alias PolyPartition.Output
+  alias PolyPartition.Geometry
   @moduledoc """
   Documentation for PolyBisector.
   """
@@ -12,7 +13,7 @@ defmodule PolyPartition do
         result = []
         Enum.flat_map(list, fn(x) ->
           cond do
-            Helpers.area(x) > bound -> result ++ Helpers.split(x)
+            Geometry.area(x) > bound -> result ++ Helpers.split(x, 0)
             true -> result ++ [x]
           end
         end)
@@ -23,15 +24,16 @@ defmodule PolyPartition do
 
   def split_polys(list, bound) do
     list
-    |> Enum.filter(fn(x) -> Helpers.area(x) > 0 end)
+    |> Enum.filter(fn(x) -> Geometry.area(x) > 0 end)
     |> split_list(bound, [])
+    |> IO.inspect
   end
 
   @doc """
     Takes a MultiPolygon and returns a list of polygons (_not_ linear rings!)
   """
   def getPolys(input) do
-    for n <- input["coordinates"] do
+    for n <- input.coordinates do
       cond do
         List.first(hd(n)) == List.last(hd(n)) -> tl(hd(n))
         true -> hd(n) #NO HOLES IN GONS

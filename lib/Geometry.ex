@@ -1,4 +1,5 @@
 defmodule PolyPartition.Geometry do
+  alias PolyPartition.Helpers
 
   def sq_length(seg) do
     [[x1, y1], [x2, y2]] = seg
@@ -136,4 +137,16 @@ defmodule PolyPartition.Geometry do
     values = Enum.map(sides, fn(x) -> intersect?(seg, x) end)
     List.foldl(values, false, fn(x, acc) -> x || acc end)
   end
+
+  def good_cut?(poly, opp_index) do
+    new1 = [hd(poly), Enum.at(poly, opp_index)] ++ Enum.slice(poly, (opp_index + 1)..length(poly))
+    new2 = Enum.slice(poly, 0..opp_index - 1) ++ [Enum.at(poly, opp_index)]
+    cond do
+      opp_index == 1 || opp_index == length(poly) - 1 -> false
+      area(new1) > area(poly) || area(new2) > area(poly) -> false
+      intersect_side?(poly, [hd(poly), Enum.at(poly, opp_index)]) -> false
+      true -> true
+    end
+  end
+
 end

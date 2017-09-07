@@ -1,4 +1,5 @@
 defmodule PolyPartition.Helpers do
+  alias PolyPartition.Geometry
 
   def det(p, q) do
     [x1, y1] = p
@@ -28,8 +29,8 @@ defmodule PolyPartition.Helpers do
   def split_coord(poly, step) do
     opp_index = round(:math.floor(length(poly) / 2)) + step
     opp = Enum.at(poly, opp_index)
-    case Geometry.intersect_side?(poly, [hd(poly), opp]) do
-      true -> split_coord(poly, next(step))
+    case Geometry.good_cut?(poly, opp_index) do
+      false -> split_coord(poly, next(step))
       _ -> opp_index
     end
   end
@@ -63,6 +64,8 @@ defmodule PolyPartition.Helpers do
   end
 
   def split(poly, retries) do
+    IO.inspect "splitting..."
+    IO.inspect poly
     p = case length(poly) do
       3 -> split_side(poly)
       _ -> poly

@@ -1,7 +1,5 @@
 defmodule PolyPartition.Output.Test do
   use ExUnit.Case
-  import PolyPartition
-  alias PolyPartition.Helpers
   alias PolyPartition.Output
   alias PolyPartition.Fixtures
 
