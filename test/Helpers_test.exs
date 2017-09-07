@@ -3,6 +3,25 @@ defmodule PolyBisector.Helpers.Test do
   alias PolyBisector.Helpers
   alias PolyBisector.Fixtures
 
+  @intersect_test_cases [
+    {[[-1, 0], [1, 0]], [[0, 1], [0, -1]], true, 0},
+    {[[0, 1], [0, -1]], [[-1, 0], [1, 0]], true, 1},
+    {[[-1, 0], [1, 0]], [[5, 1], [5, -1]], false, 2},
+    {[[-1, 0], [1, 0]], [[-1, 0], [5, -1]], false, 3},
+    {[[0, 4], [4, 0]], [[0, 1], [4, 10]], true, 4},
+    {[[-1, 0], [1, 0]], [[-1, 1], [1, 0]], false, 5},
+    {[[-1, 0], [1, 0]], [[-1, 0], [1, 0]], false, 6},
+    {[[-1, 0], [0, 0]], [[-1, 0], [0, -1]], false, 7},
+    {[[0, 1], [1, 0]], [[0, 1], [0.25, 0.25]], false, 8},
+    {[[0, 1], [1, 0]], [[0.25, 0.25], [1, 0]], false, 9},
+    {[[0, 1], [1, 0]], [[1, 0], [0.25, -0.25]], false, 10},
+    {[[0, 1], [1, 0]], [[0.25, -0.25], [0, -1]], false, 11},
+    {[[0, 1], [1, 0]], [[0, -1], [0.1,0.1]], false, 12},
+    {[[0, 1], [1, 0]], [[0.1, 0.1], [-1, 0]], false, 13},
+    {[[0, 1], [1, 0]], [[-1, 0], [-0.25, 0.25]], false, 14},
+    {[[0, 1], [1, 0]], [[-0.25, 0.25], [0, 1]], false, 15},
+    {[[0, 1], [0, -1]], [[-0.5, -0.9], [0.1,0.1]], true, 16}
+  ]
 
   defp polylist_to_set(list) do
     setlist = Enum.map(list, fn(x) -> MapSet.new(x) end)
@@ -22,23 +41,12 @@ defmodule PolyBisector.Helpers.Test do
     end
 
     test "intersect?" do
-      assert Helpers.intersect?([[-1, 0], [1, 0]], [[0, 1], [0, -1]]) == true
-      assert Helpers.intersect?([[0, 1], [0, -1]], [[-1, 0], [1, 0]]) == true
-      assert Helpers.intersect?([[-1, 0], [1, 0]], [[5, 1], [5, -1]]) == false
-      assert Helpers.intersect?([[-1, 0], [1, 0]], [[-1, 0], [5, -1]]) == false
-      assert Helpers.intersect?([[0, 4], [4, 0]], [[0, 1], [4, 10]]) == true
-      assert Helpers.intersect?([[-1, 0], [1, 0]], [[-1, 1], [1, 0]]) == false
-      assert Helpers.intersect?([[-1, 0], [1, 0]], [[-1, 0], [1, 0]]) == false
-      assert Helpers.intersect?([[-1, 0], [0, 0]], [[-1, 0], [0, -1]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[0, 1], [0.25, 0.25]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[0.25, 0.25], [1, 0]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[1, 0], [0.25, -0.25]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[0.25, -0.25], [0, -1]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[0, -1], [0.1,0.1]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[0.1, 0.1], [-1, 0]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[-1, 0], [-0.25, 0.25]]) == false
-      assert Helpers.intersect?([[0, 1], [1, 0]], [[-0.25, 0.25], [0, 1]]) == false
-      assert Helpers.intersect?([[0, 1], [0, -1]], [[-0.5, -0.9], [0.1,0.1]]) == true
+      @intersect_test_cases
+      |> Enum.map(fn(x) ->
+        {a, b, c, n} = x
+        assert Helpers.intersect?(a, b) == c,
+          ~s(intersect? case #{n} failed)
+      end)
     end
 
     test "split" do
