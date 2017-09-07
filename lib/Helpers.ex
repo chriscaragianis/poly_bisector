@@ -28,7 +28,7 @@ defmodule PolyPartition.Helpers do
   def split_coord(poly, step) do
     opp_index = round(:math.floor(length(poly) / 2)) + step
     opp = Enum.at(poly, opp_index)
-    case intersect_side?(poly, [hd(poly), opp]) do
+    case Geometry.intersect_side?(poly, [hd(poly), opp]) do
       true -> split_coord(poly, next(step))
       _ -> opp_index
     end
@@ -49,7 +49,7 @@ defmodule PolyPartition.Helpers do
     |> Enum.map(fn(x) ->
       {point, index} = x
       next = Enum.at(poly, rem((index + 1), length(poly)))
-      {sq_length([point, next]), midpoint([point, next]), index}
+      {Geometry.sq_length([point, next]), Geometry.midpoint([point, next]), index}
     end)
     |> List.foldr({0, 0, 0}, fn(x, acc) ->
       {length, mid, _} = x
@@ -62,23 +62,23 @@ defmodule PolyPartition.Helpers do
     List.insert_at(poly, ind + 1, pt)
   end
 
-  def split(poly) do
+  def split(poly, retries) do
     p = case length(poly) do
       3 -> split_side(poly)
       _ -> poly
     end
     opp_index = split_coord(p, 0)
     result = []
-    r = result ++ [Enum.slice(p, 0..opp_index)] ++ [Enum.slice(p, opp_index..length(p)) ++ [hd(p)]]
+    r = result ++ rotate_list([Enum.slice(p, 0..opp_index)]) ++ [Enum.slice(p, opp_index..length(p)) ++ [hd(p)]]
     t = r
-        |> Enum.map(fn(x) -> area(x) end)
+        |> Enum.map(fn(x) -> Geometry.area(x) end)
         |> List.foldr(1, fn(x, acc) -> cond do
           x < acc -> x
           true -> acc
         end
         end)
-    case t do
-      0.0 -> split(rotate_list(poly))
+    case {t, retries >= length(poly) - 1} do
+      {0.0, false} -> split(rotate_list(poly), retries + 1) #split failed, try another vertex
       _ -> r
     end
   end

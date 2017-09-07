@@ -9,6 +9,7 @@ defmodule PolyPartition.Geometry do
     [[x1, y1], [x2, y2]] = seg
     [(x1 + x2) / 2, (y1 + y2) / 2]
   end
+
   defp slope(point1, point2) do
     [x1, y1] = point1
     [x2, y2] = point2
@@ -19,12 +20,22 @@ defmodule PolyPartition.Geometry do
     end
   end
 
+  defp deg_to_rad(deg) do
+    deg * 2 * :math.pi / 360
+  end
+
+  defp lat_factor(lat_rad) do
+    :math.pow(((69.0 * :math.cos(lat_rad)) + 69.0) / 2.0, 2)
+  end
+
   def area(poly) do
-    sample_lat = (List.last(hd(poly)) * 2 * :math.pi)/360
-    lat_adj = :math.cos(sample_lat)
-    factor = :math.pow(((69.0 * lat_adj) + 69.0) / 2.0, 2)
+    factor = poly
+    |> hd
+    |> List.last
+    |> deg_to_rad
+    |> lat_factor
     get_segments(poly)
-    |> Enum.map(fn(x) -> det_seg(x) end)
+    |> Enum.map(fn(x) -> Helpers.det_seg(x) end)
     |> List.foldr(0, fn(x, acc) -> x + acc end)
     |> Kernel./(2.0)
     |> abs
@@ -44,7 +55,7 @@ defmodule PolyPartition.Geometry do
     sign of result indicates which side of the line through <sample>
     with slope <m> the point <given> lies on
   """
-  defp point_score(given, sample, m) do
+  def point_score(given, sample, m) do
     [h, k] = sample
     [x, y] = given
     y - (m * x) - k + (m * h)
@@ -112,7 +123,7 @@ defmodule PolyPartition.Geometry do
       {_, "vert", _, _, _} -> one_side_intersect?(rotate90_seg(seg2), rotate90_seg(seg1))
       {_, _, "vert", _, _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
       {_, _, _, "vert", _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
-      _ -> sgn_to_bool(k1, k2)
+      _ -> Helpers.sgn_to_bool(k1, k2)
     end
   end
 
