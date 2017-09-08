@@ -108,30 +108,15 @@ defmodule PolyPartition.Geometry do
       p12 == p22
   end
 
-  def one_side_intersect?(seg1, seg2) do
+  defp one_side_intersect?(seg1, seg2) do
     [p11, p12] = seg1
     [p21, p22] = seg2
-    m = slope(p11, p12)
-    n = slope(p21, p22)
-    k1 = case n do
-      "vert" -> "vert"
-      _ -> point_score(p21, p11, n)
-    end
-    k2 = case n do
-      "vert" -> "vert"
-      _ -> point_score(p21, p12, n)
-    end
+    m1 = slope(p11, p12)
+    m2 = slope(p21, p22)
+    k1 = point_score(p11, p21, m2)
+    k2 = point_score(p12, p22, m2)
     degen = share_endpoint?(seg1, seg2)
-    case {m, n, k1, k2, degen} do
-      {_, _, _, _, true} -> false
-      {"vert", 0.0, _, _, _} -> perp_intersect?(seg1, seg2)
-      {0.0, "vert", _, _, _} -> perp_intersect?(seg2, seg1)
-      {"vert", _, _, _, _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
-      {_, "vert", _, _, _} -> one_side_intersect?(rotate90_seg(seg2), rotate90_seg(seg1))
-      {_, _, "vert", _, _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
-      {_, _, _, "vert", _} -> one_side_intersect?(rotate90_seg(seg1), rotate90_seg(seg2))
-      _ -> Helpers.sgn_to_bool(k1, k2)
-    end
+    Helpers.sgn_to_bool(k1, k2)
   end
 
   def intersect?(seg1, seg2) do
