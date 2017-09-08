@@ -151,6 +151,17 @@ defmodule PolyPartition.Geometry.Test do
       end)
     end
 
+    test "perp_intersect?" do
+      seg1 = [ [0, 0], [10, 0] ]
+      seg2 = [ [5, -1], [5, 10] ]
+      seg3 = [ [5, 1], [5, 10] ]
+      assert Geometry.perp_intersect?(seg1, seg2) == true
+      assert Geometry.perp_intersect?(seg2, seg1) == true
+      assert Geometry.perp_intersect?(seg1, seg3) == false
+      assert Geometry.perp_intersect?(seg3, seg1) == false
+
+    end
+
     test "intersect_side?" do
       seg1 = [[0, 1], [1, 0]]
       seg2 = [[0, 1], [0, -1]]

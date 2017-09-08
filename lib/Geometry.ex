@@ -85,12 +85,15 @@ defmodule PolyPartition.Geometry do
     determine intersection of segments orthogonal to axes
   """
   def perp_intersect?(seg1, seg2) do
-    #vert is first
-    [[x1, y11], [_, y12]] = seg1
-    [[x21, y2], [x22, _]] = seg2
-    horiz = (x21 - x1) * (x22 - x1)
-    vert = (y11 - y2) * (y12 - y2)
-    !(horiz >= 0 ||  vert >= 0)
+    [[x11, y11], [x12, y12]] = seg1
+    [[x21, y21], [x22, y22]] = seg2
+    cond do
+      x11 != x12 -> perp_intersect?(seg2, seg1)
+      true ->
+        horiz = (x21 - x11) * (x22 - x11)
+        vert = (y11 - y21) * (y12 - y21)
+        !(horiz >= 0 ||  vert >= 0)
+    end
   end
 
   @doc """
