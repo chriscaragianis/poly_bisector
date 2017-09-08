@@ -59,7 +59,10 @@ defmodule PolyPartition.Geometry do
   def point_score(given, sample, m) do
     [h, k] = sample
     [x, y] = given
-    y - (m * x) - k + (m * h)
+    case m do
+      "vert" -> h - x
+      _ -> y - (m * x) - k + (m * h)
+    end
   end
 
   @doc """

@@ -136,6 +136,16 @@ defmodule PolyPartition.Geometry.Test do
       assert_in_delta Geometry.area(@big_area_case), 40141.95, 500.0
     end
 
+    test "point_score" do
+      a = Geometry.point_score([10, 1], [1, 1], 1)
+      b = Geometry.point_score([1, 10], [1, 1], 1)
+      c = Geometry.point_score([1, 11], [1, 1], 1)
+      x = Geometry.point_score([1, 0], [0, 0], "vert")
+      y = Geometry.point_score([-1, 0], [0, 0], "vert")
+      assert a * b < 0
+      assert c * b > 0
+      assert x * y < 0
+    end
   end
 end
 
