@@ -159,7 +159,14 @@ defmodule PolyPartition.Geometry.Test do
       assert Geometry.perp_intersect?(seg2, seg1) == true
       assert Geometry.perp_intersect?(seg1, seg3) == false
       assert Geometry.perp_intersect?(seg3, seg1) == false
+    end
 
+    test "share_endpoint?" do
+      seg1 = [[0,0], [0,1]]
+      seg2 = [[1,0], [0,1]]
+      seg3 = [[1,0], [2,1]]
+      assert Geometry.share_endpoint?(seg1, seg2) == true
+      assert Geometry.share_endpoint?(seg1, seg3) == false
     end
 
     test "intersect_side?" do

@@ -102,13 +102,10 @@ defmodule PolyPartition.Geometry do
   def share_endpoint?(seg1, seg2) do
     [p11, p12] = seg1
     [p21, p22] = seg2
-    cond do
-      p11 == p21 -> true
-      p11 == p22 -> true
-      p12 == p21 -> true
-      p12 == p22 -> true
-      true -> false
-    end
+    p11 == p21 ||
+      p11 == p22 ||
+      p12 == p21 ||
+      p12 == p22
   end
 
   def one_side_intersect?(seg1, seg2) do
