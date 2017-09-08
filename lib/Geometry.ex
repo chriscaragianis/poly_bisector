@@ -79,6 +79,7 @@ defmodule PolyPartition.Geometry do
         true -> nil
       end
     end)
+    |> List.delete(nil)
   end
 
   @doc """
