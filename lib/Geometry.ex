@@ -75,7 +75,7 @@ defmodule PolyPartition.Geometry do
     |> Enum.map(fn(x) ->
       {point, index} = x
       cond do
-        index != 0 -> [point, Enum.at(poly, index - 1)]
+        index != 0 -> [Enum.at(poly, index - 1), point]
         true -> nil
       end
     end)
@@ -87,7 +87,7 @@ defmodule PolyPartition.Geometry do
   """
   def perp_intersect?(seg1, seg2) do
     [[x11, y11], [x12, y12]] = seg1
-    [[x21, y21], [x22, y22]] = seg2
+    [[x21, y21], [x22, _]] = seg2
     cond do
       x11 != x12 -> perp_intersect?(seg2, seg1)
       true ->
@@ -112,11 +112,9 @@ defmodule PolyPartition.Geometry do
   defp one_side_intersect?(seg1, seg2) do
     [p11, p12] = seg1
     [p21, p22] = seg2
-    m1 = slope(p11, p12)
-    m2 = slope(p21, p22)
-    k1 = point_score(p11, p21, m2)
-    k2 = point_score(p12, p22, m2)
-    degen = share_endpoint?(seg1, seg2)
+    m = slope(p21, p22)
+    k1 = point_score(p11, p21, m)
+    k2 = point_score(p12, p22, m)
     Helpers.sgn_to_bool(k1, k2)
   end
 

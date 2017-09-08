@@ -24,29 +24,6 @@ defmodule PolyPartition.Geometry.Test do
     {[[0, 1], [0, -1]], [[-0.5, -0.9], [0.1,0.1]], true, 16}
   ]
 
-  @good_cutcase [
-            [
-              -85.50659179687499,
-              38.148597559924355
-            ],
-            [
-              -85.46401977539062,
-              37.97451499202459
-            ],
-            [
-              -85.24017333984375,
-              38.003737861469666
-            ],
-            [
-              -85.26763916015625,
-              38.18638677411551
-            ],
-            [
-              -85.37200927734375,
-              38.04484662140698
-            ],
-          ]
-
   @area_case [
             [
               -85.76640129089355,
@@ -129,14 +106,6 @@ defmodule PolyPartition.Geometry.Test do
   ]
 
   describe "Geometry helpers" do
-    test "good_cut?" do
-      next = Helpers.rotate_list(@good_cutcase)
-      assert Geometry.good_cut?(@good_cutcase, 3) == false
-      assert Geometry.good_cut?(@good_cutcase, 2) == false
-      assert Geometry.good_cut?(@good_cutcase, 1) == false
-      assert Geometry.good_cut?(next, 3) == true
-    end
-
     test "get segments" do
       assert Fixtures.convex |> Geometry.get_segments == Fixtures.convex_segs
       assert @big_area_case |> Geometry.get_segments == @big_area_case_segs
@@ -192,6 +161,21 @@ defmodule PolyPartition.Geometry.Test do
       assert a * b < 0
       assert c * b > 0
       assert x * y < 0
+    end
+
+    test "good_cut?" do
+      poly = Fixtures.realcomplex
+      assert Geometry.good_cut?(poly, 1) == false
+      assert Geometry.good_cut?(poly, 2) == false
+      assert Geometry.good_cut?(poly, 3) == false
+      assert Geometry.good_cut?(poly, 6) == true
+      assert Geometry.good_cut?(poly, 9) == false
+      poly2 = Helpers.rotate_list(poly)
+      assert Geometry.good_cut?(poly2, 1) == false
+      assert Geometry.good_cut?(poly2, 2) == false
+      assert Geometry.good_cut?(poly2, 3) == true
+      poly3 = poly2 |> Helpers.rotate_list |> Helpers.rotate_list |> Helpers.rotate_list |> Helpers.rotate_list
+      assert Geometry.good_cut?(poly3, 3) == false
     end
   end
 end
