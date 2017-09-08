@@ -83,15 +83,50 @@ defmodule PolyPartition.Geometry.Test do
                             -85.7373046875,
                             38.24680876017446
                           ],
-              [
-                            -90.17578124999999,
-                            38.634036452919226
-                          ]
             ]
-  defp polylist_to_set(list) do
-    setlist = Enum.map(list, fn(x) -> MapSet.new(x) end)
-    MapSet.new(setlist)
-  end
+  @big_area_case_segs [
+    [
+      [
+        -90.17578124999999,
+        38.634036452919226
+      ],
+      [
+        -90.04394531249999,
+        35.146862906756304
+      ],
+    ],
+    [
+      [
+        -90.04394531249999,
+        35.146862906756304
+      ],
+      [
+        -86.759033203125,
+        36.1733569352216
+      ],
+    ],
+    [
+      [
+        -86.759033203125,
+        36.1733569352216
+      ],
+      [
+        -85.7373046875,
+        38.24680876017446
+      ],
+    ],
+    [
+
+      [
+        -85.7373046875,
+        38.24680876017446
+      ],
+      [
+        -90.17578124999999,
+        38.634036452919226
+      ],
+    ]
+  ]
 
   describe "Geometry helpers" do
     test "good_cut?" do
@@ -103,14 +138,8 @@ defmodule PolyPartition.Geometry.Test do
     end
 
     test "get segments" do
-      assert do
-        Fixtures.convex
-        |> Geometry.get_segments
-        |> polylist_to_set
-        ==
-        Fixtures.convex_segs
-        |> polylist_to_set
-      end
+      assert Fixtures.convex |> Geometry.get_segments == Fixtures.convex_segs
+      assert @big_area_case |> Geometry.get_segments == @big_area_case_segs
     end
 
     test "intersect?" do
