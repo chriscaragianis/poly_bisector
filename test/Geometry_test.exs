@@ -47,6 +47,47 @@ defmodule PolyPartition.Geometry.Test do
             ],
           ]
 
+  @area_case [
+            [
+              -85.76640129089355,
+              38.24687616739557
+            ],
+            [
+              -85.72837829589844,
+              38.22874137177956
+            ],
+            [
+              -85.72357177734375,
+              38.23440476759944
+            ],
+            [
+              -85.72691917419434,
+              38.243842780560804
+            ],
+  ]
+
+  @big_area_case [
+              [
+                            -90.17578124999999,
+                            38.634036452919226
+                          ],
+              [
+                            -90.04394531249999,
+                            35.146862906756304
+                          ],
+              [
+                            -86.759033203125,
+                            36.1733569352216
+                          ],
+              [
+                            -85.7373046875,
+                            38.24680876017446
+                          ],
+              [
+                            -90.17578124999999,
+                            38.634036452919226
+                          ]
+            ]
   defp polylist_to_set(list) do
     setlist = Enum.map(list, fn(x) -> MapSet.new(x) end)
     MapSet.new(setlist)
@@ -91,8 +132,8 @@ defmodule PolyPartition.Geometry.Test do
     end
 
     test "area" do
-      assert_in_delta Geometry.area(Fixtures.realsimple), 11.3827, 0.01
-      assert_in_delta  Geometry.area(Fixtures.realcomplex), 86.63506, 0.01
+      assert_in_delta Geometry.area(@area_case), 1.2004, 0.1
+      assert_in_delta Geometry.area(@big_area_case), 40141.95, 500.0
     end
 
   end
