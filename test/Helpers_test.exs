@@ -5,6 +5,15 @@ defmodule PolyPartition.Helpers.Test do
 
   describe "Helpers" do
 
+    test "split_coord" do
+      poly = Fixtures.realcomplex
+      poly2 = poly |> Helpers.rotate_list
+      poly3 = poly2 |> Helpers.rotate_list
+      assert poly |> Helpers.split_coord(0) == 6
+      assert poly2 |> Helpers.split_coord(0) == 5
+      assert poly3 |> Helpers.split_coord(0) == nil
+    end
+
     test "split" do
       assert Helpers.split(Fixtures.convex, 0) == Fixtures.convex_split
       assert Helpers.split(Fixtures.non_convex, 0) == Fixtures.non_convex_split

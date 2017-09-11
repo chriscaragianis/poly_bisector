@@ -110,12 +110,16 @@ defmodule PolyPartition.Geometry do
   end
 
   defp one_side_intersect?(seg1, seg2) do
-    [p11, p12] = seg1
-    [p21, p22] = seg2
-    m = slope(p21, p22)
-    k1 = point_score(p11, p21, m)
-    k2 = point_score(p12, p22, m)
-    Helpers.sgn_to_bool(k1, k2)
+    cond do
+      share_endpoint?(seg1, seg2) -> false
+      true ->
+        [p11, p12] = seg1
+        [p21, p22] = seg2
+        m = slope(p21, p22)
+        k1 = point_score(p11, p21, m)
+        k2 = point_score(p12, p22, m)
+        Helpers.sgn_to_bool(k1, k2)
+    end
   end
 
   def intersect?(seg1, seg2) do
@@ -123,9 +127,11 @@ defmodule PolyPartition.Geometry do
   end
 
   def intersect_side?(poly, seg) do
-    sides = get_segments(poly)
-    values = Enum.map(sides, fn(x) -> intersect?(seg, x) end)
-    List.foldl(values, false, fn(x, acc) -> x || acc end)
+    poly
+    |> get_segments
+    |> Enum.slice(1..length(poly) - 1)
+    |> Enum.map(fn(x) -> intersect?(seg, x) end)
+    |> List.foldl(false, fn(x, acc) -> x || acc end)
   end
 
   def good_cut?(poly, opp_index) do
