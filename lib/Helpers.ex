@@ -28,7 +28,6 @@ defmodule PolyPartition.Helpers do
 
   def split_coord(poly, step) do
     opp_index = round(:math.floor(length(poly) / 2)) + step
-    IO.inspect {[hd(poly), Enum.at(poly, opp_index)], opp_index}
     case Geometry.good_cut?(poly, opp_index) do
       false -> split_coord(poly, next(step))
       _ -> opp_index

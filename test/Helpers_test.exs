@@ -11,7 +11,7 @@ defmodule PolyPartition.Helpers.Test do
       poly3 = poly2 |> Helpers.rotate_list
       assert poly |> Helpers.split_coord(0) == 6
       assert poly2 |> Helpers.split_coord(0) == 5
-      assert poly3 |> Helpers.split_coord(0) == nil
+      assert poly3 |> Helpers.split_coord(0) == 4
     end
 
     test "split" do
