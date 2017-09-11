@@ -51,7 +51,7 @@ defmodule PolyPartition.Helpers do
       next = Enum.at(poly, rem((index + 1), length(poly)))
       {Geometry.sq_length([point, next]), Geometry.midpoint([point, next]), index}
     end)
-    |> List.foldr({0, 0, 0}, fn(x, acc) ->
+    |> List.foldr({0.0, 0, 0}, fn(x, acc) ->
       {length, _, _} = x
       {a_length, _, _} = acc
       cond do
@@ -59,7 +59,8 @@ defmodule PolyPartition.Helpers do
         true -> acc
       end
     end)
-    List.insert_at(poly, ind + 1, pt)
+    |> IO.inspect
+    List.insert_at(poly, rem((ind + 1), length(poly)), pt)
   end
 
   def split(poly, retries) do

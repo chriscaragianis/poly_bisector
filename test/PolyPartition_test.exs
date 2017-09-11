@@ -78,7 +78,7 @@ defmodule PolyPartition.Test do
   end
 
   describe "adhoc" do
-    {:ok, res} = PolyPartition.get_split_geojson(Fixtures.adhoc, 0.015)
+    {:ok, res} = PolyPartition.get_split_geojson(Fixtures.crazygon, 0.115)
     IO.puts res
   end
 end

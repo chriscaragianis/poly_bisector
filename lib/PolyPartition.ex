@@ -7,9 +7,8 @@ defmodule PolyPartition do
   """
 
 
-  def split_list(list, bound, prior, retries) do
+  def split_list(list, bound, prior) do
     cond do
-      retries > 5 -> list
       list == prior -> list
       true ->
         result = []
@@ -19,14 +18,14 @@ defmodule PolyPartition do
             true -> result ++ [x]
           end
         end)
-        |> split_list(bound, list, retries + 1)
+        |> split_list(bound, list)
     end
   end
 
   def split_polys(list, bound) do
     list
     |> Enum.filter(fn(x) -> Geometry.area(x) > 0 end)
-    |> split_list(bound, [], 0)
+    |> split_list(bound, [])
   end
 
   @doc """
