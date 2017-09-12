@@ -1,10 +1,15 @@
-# PolyBisector
+# PolyPartition
 
 ## Description
 
 Subdivides a polygons in a list until all are less than a given area
 
-`PolyBisector.split_polys(<List of polygons>, <area bound>)`
+`PolyPartition.split_polys(<List of polygons>, <area bound>)`
+
+To get a result as a  GeoJSON feature collection:
+
+`PolyPartition.split_polys_geoJSON(<List of polygons>, <area bound>)`
+
 
 ## Installation
 
