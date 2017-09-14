@@ -30,14 +30,17 @@ defmodule PolyPartition do
   @doc """
     Takes a MultiPolygon and returns a list of polygons (_not_ linear rings!)
   """
-  def getPolys(input) do
-    obj = Map.new(input, fn({k, v}) -> {Helpers.maybe_string_to_atom(k), v} end)
-    for n <- obj.coordinates do
+  def getPolys(%{coordinates: coords, type: type} = input) do
+    for n <- coords do
       cond do
         List.first(hd(n)) == List.last(hd(n)) -> tl(hd(n))
         true -> hd(n) #NO HOLES IN GONS
       end
     end
+  end
+
+  def getPolys(%{"coordinates" => coords, "type" => type} = input) do
+    getPolys(%{coordinates: coords, type: type})
   end
 
   @doc """
