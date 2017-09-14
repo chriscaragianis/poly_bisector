@@ -2,6 +2,7 @@ defmodule PolyPartition.Helpers.Test do
   use ExUnit.Case
   alias PolyPartition.Helpers
   alias PolyPartition.Fixtures
+  doctest Helpers
 
   describe "Helpers" do
 
