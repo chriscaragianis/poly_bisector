@@ -6,7 +6,6 @@ defmodule PolyPartition do
   Documentation for PolyBisector.
   """
 
-
   def split_list(list, bound, prior) do
     cond do
       list == prior -> list
@@ -32,7 +31,8 @@ defmodule PolyPartition do
     Takes a MultiPolygon and returns a list of polygons (_not_ linear rings!)
   """
   def getPolys(input) do
-    for n <- input.coordinates do
+    obj = Map.new(input, fn({k, v}) -> {Helpers.maybe_string_to_atom(k), v} end)
+    for n <- obj.coordinates do
       cond do
         List.first(hd(n)) == List.last(hd(n)) -> tl(hd(n))
         true -> hd(n) #NO HOLES IN GONS

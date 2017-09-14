@@ -1,6 +1,13 @@
 defmodule PolyPartition.Helpers do
   alias PolyPartition.Geometry
 
+  def maybe_string_to_atom(str) do
+    cond do
+      is_binary(str) -> String.to_atom(str)
+      true -> str
+    end
+  end
+
   def det(p, q) do
     [x1, y1] = p
     [x2, y2] = q
