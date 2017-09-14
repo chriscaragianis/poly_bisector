@@ -2,27 +2,45 @@
 
 ## Description
 
-Subdivides a polygons in a list until all are less than a given area
+Subdivides MultiPolygon geometries in a list until all polygons are less than a given area
 
-`PolyPartition.split_polys(<List of polygons>, <area bound>)`
+`PolyPartition.get_split(<List of MultiPolygon geometries>, <area bound in mi^2>)`
 
 To get a result as a  GeoJSON feature collection:
 
-`PolyPartition.split_polys_geoJSON(<List of polygons>, <area bound>)`
+`PolyPartition.get_split_geojson(<List of MultiPolygon geometries>, <area bound in mi^2>)`
 
+## Example
 
+```elixir
+iex(1)> a = %{"coordinates" => [[[[-118.874130249023, 34.176708515026],
+...(1)>      [-118.874344825745, 34.1781286730964],
+...(1)>      [-118.877241611481, 34.1770990608781],
+...(1)>      [-118.876512050629, 34.1755191142507],
+...(1)>      [-118.873980045319, 34.1756256284364],
+...(1)>      [-118.874130249023, 34.176708515026]]]], "type" => "MultiPolygon"}
+%{"coordinates" => [[[[-118.874130249023, 34.176708515026],
+     [-118.874344825745, 34.1781286730964],
+     [-118.877241611481, 34.1770990608781],
+     [-118.876512050629, 34.1755191142507],
+     [-118.873980045319, 34.1756256284364],
+     [-118.874130249023, 34.176708515026]]]], "type" => "MultiPolygon"}
+iex(2)> PolyPartition.get_split([a], 0.02)
+[%{coordinates: [[[[-118.874344825745, 34.1781286730964],
+      [-118.877241611481, 34.1770990608781],
+      [-118.876512050629, 34.1755191142507],
+      [-118.874344825745, 34.1781286730964]]]], type: "MultiPolygon"},
+ %{coordinates: [[[[-118.876512050629, 34.1755191142507],
+      [-118.873980045319, 34.1756256284364],
+      [-118.874130249023, 34.176708515026],
+      [-118.874344825745, 34.1781286730964],
+      [-118.876512050629, 34.1755191142507]]]], type: "MultiPolygon"}]
+```
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `poly_bisector` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:poly_bisector, "~> 0.1.0"}]
+  [{:poly_partition, "~> 0.1.2"}]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/poly_bisector](https://hexdocs.pm/poly_bisector).
 
