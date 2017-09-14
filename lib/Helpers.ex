@@ -66,7 +66,6 @@ defmodule PolyPartition.Helpers do
         true -> acc
       end
     end)
-    |> IO.inspect
     List.insert_at(poly, rem((ind + 1), length(poly)), pt)
   end
 
