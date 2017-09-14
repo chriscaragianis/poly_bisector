@@ -1,6 +1,8 @@
 defmodule PolyPartition.Helpers do
   alias PolyPartition.Geometry
-
+  @moduledoc """
+  Helper functions for PolyPartition
+  """
 
   @doc """
   Calculates the determinant of two points provided as a segment

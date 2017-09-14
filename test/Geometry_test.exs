@@ -3,6 +3,7 @@ defmodule PolyPartition.Geometry.Test do
   alias PolyPartition.Geometry
   alias PolyPartition.Fixtures
   alias PolyPartition.Helpers
+  doctest Geometry
 
   @intersect_test_cases [
     {[[-1, 0], [1, 0]], [[0, 1], [0, -1]], true, 0},
