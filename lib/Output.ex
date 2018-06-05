@@ -1,5 +1,7 @@
 defmodule PolyPartition.Output do
-
+  @moduledoc"""
+  Tools to normalize the output of the partition process
+  """
 
   def wrap_geoJSON_feature(geo) do
     %{

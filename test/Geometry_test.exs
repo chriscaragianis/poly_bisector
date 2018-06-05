@@ -18,11 +18,11 @@ defmodule PolyPartition.Geometry.Test do
     {[[0, 1], [1, 0]], [[0.25, 0.25], [0.9, 0]], false, 9},
     {[[0, 1], [1, 0]], [[0.9, 0], [0.25, -0.25]], false, 10},
     {[[0, 1], [1, 0]], [[0.25, -0.25], [0, -1]], false, 11},
-    {[[0, 1], [1, 0]], [[0, -1], [0.1,0.1]], false, 12},
+    {[[0, 1], [1, 0]], [[0, -1], [0.1, 0.1]], false, 12},
     {[[0, 1], [1, 0]], [[0.1, 0.1], [-1, 0]], false, 13},
     {[[0, 1], [1, 0]], [[-1, 0], [-0.25, 0.25]], false, 14},
     {[[0, 1], [1, 0]], [[-0.25, 0.25], [0, 0.9]], false, 15},
-    {[[0, 1], [0, -1]], [[-0.5, -0.9], [0.1,0.1]], true, 16},
+    {[[0, 1], [0, -1]], [[-0.5, -0.9], [0.1, 0.1]], true, 16},
     {
       [
         [-85.58486938476563, 38.038357297980816],
@@ -144,9 +144,9 @@ defmodule PolyPartition.Geometry.Test do
     end
 
     test "share_endpoint?" do
-      seg1 = [[0,0], [0,1]]
-      seg2 = [[1,0], [0,1]]
-      seg3 = [[1,0], [2,1]]
+      seg1 = [[0, 0], [0, 1]]
+      seg2 = [[1, 0], [0, 1]]
+      seg3 = [[1, 0], [2, 1]]
       assert Geometry.share_endpoint?(seg1, seg2) == true
       assert Geometry.share_endpoint?(seg1, seg3) == false
     end
@@ -162,7 +162,7 @@ defmodule PolyPartition.Geometry.Test do
 
     test "area" do
       assert_in_delta Geometry.area(@area_case), 1.2004, 0.1
-      assert_in_delta Geometry.area(@big_area_case), 40141.95, 500.0
+      assert_in_delta Geometry.area(@big_area_case), 40_141.95, 500.0
     end
 
     test "point_score" do

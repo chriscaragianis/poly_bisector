@@ -34,9 +34,12 @@ defmodule PolyPartition.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:mix_test_watch, "~> 0.5", only: :dev, runtime: false},
+      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:poison, "~> 3.1"},
       {:geo, "~> 2.0"},
-      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 

@@ -26,7 +26,7 @@ defmodule PolyPartition.Helpers.Test do
     end
 
     test "rotate_list" do
-      assert Helpers.rotate_list([1,2,3]) == [2, 3, 1]
+      assert Helpers.rotate_list([1, 2, 3]) == [2, 3, 1]
     end
 
   end

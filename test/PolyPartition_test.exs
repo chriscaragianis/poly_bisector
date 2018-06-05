@@ -1,6 +1,7 @@
 defmodule PolyPartition.Test do
   use ExUnit.Case
   alias PolyPartition.Fixtures
+  doctest Point
 
   @split_polys_test_cases [
     {1, [Fixtures.realsimple], 6, 3},

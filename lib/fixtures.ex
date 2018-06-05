@@ -1,4 +1,7 @@
 defmodule PolyPartition.Fixtures do
+  @moduledoc"""
+  Fixture data for tests
+  """
 
   def non_convex do
     [
